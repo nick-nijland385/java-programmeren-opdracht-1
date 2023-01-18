@@ -7,50 +7,51 @@ public class Stemming {
         // Creeer 3 partijen
         Partij pvda = new Partij("PVDA", new String[] {"Henk", "Bert", "Danny", "Tom", "Dennis", "Barry", "Dave", "Ingrid"});
         Partij cda = new Partij("CDA", new String[] {"Jos", "Imre", "Nick", "Cheryl", "Frank"});
-        Partij vvd = new Partij("VVD", new String[] {"Mark", "Margreet", "Bertus"});
+        Partij vvd = new Partij("VVD", new String[] {"Mark", "Margreet", "Bertus", "Carmen", "Loïs"});
 
         // Maak een kieslijst van de 3 partijen
-        ArrayList<Partij> kieslijst = new ArrayList<Partij>();
+        ArrayList<Partij> kieslijst = new ArrayList<>();
         kieslijst.add(pvda);
         kieslijst.add(cda);
         kieslijst.add(vvd);
 
         // Stem 50 keer op een willekeurige kandidaat
-        RandomStemming(50, kieslijst);
+        RandomStemming(kieslijst);
     }
 
-    private static void RandomStemming(int total, ArrayList<Partij> partijen) {
-        for (int i = 0; i < total; i++) {
-            if (i < total - 1) {
-                voegStemmenToe(partijen);
+    private static void RandomStemming(ArrayList<Partij> kieslijst) {
+        for (int i = 0; i <= 50; i++) {
+            if (i < 50) {
+                voegStemmenToe(kieslijst);
             } else {
-                ShowStemming(partijen);
+                ShowStemming(kieslijst);
             }
         }
     }
 
-    private static void ShowStemming(ArrayList<Partij> partijen) {
-        System.out.println(System.lineSeparator() + "Resultaten van de stemming:");
-        for (int i = 0; i < partijen.size(); i++) {
+    private static void ShowStemming(ArrayList<Partij> kieslijst) {
+        System.out.println(System.lineSeparator() + "Resultaten van de stemming:" + System.lineSeparator());
+        for (Partij partij : kieslijst) {
             int totaalStemmen = 0;
-            String partijNaam = System.lineSeparator() + partijen.get(i).partijNaam;
+            int totaalKandidaten = Partij.getTotalKandidaten(partij);
+            String partijNaam = Partij.getPartijNaam(partij);
             System.out.println(partijNaam);
-            for (int j = 0; j < partijen.get(i).partijKandidaten.size(); j++) {
-                String naam = partijen.get(i).partijKandidaten.get(j).kandidaatNaam;
-                int stemmen = partijen.get(i).partijKandidaten.get(j).kandidaatStemmen;
-                System.out.println(naam + ' ' + stemmen);
-                totaalStemmen = totaalStemmen + stemmen;
+            for (int j = 0; j < totaalKandidaten; j++) {
+                String kandidaatNaam = Partij.getKandidaat(partij, j);
+                int kandidaatSttemmen = Partij.getAantalStemmen(partij, j);
+                System.out.println(kandidaatNaam + ' ' + kandidaatSttemmen);
+                totaalStemmen = totaalStemmen + kandidaatSttemmen;
             }
-            System.out.println(System.lineSeparator() + "Totaal aantal stemmen = " + totaalStemmen);
+            System.out.println(System.lineSeparator() + "Totaal aantal stemmen = " + totaalStemmen + System.lineSeparator());
         }
     }
 
-    private static void voegStemmenToe(ArrayList<Partij> partijen) {
+    private static void voegStemmenToe(ArrayList<Partij> kieslijst) {
         Random randomPartij = new Random();
-        int partijenlength = randomPartij.nextInt(partijen.size());
+        int partijenlength = randomPartij.nextInt(kieslijst.size());
         Random randomKandidaat = new Random();
-        int kandidatenLength = randomKandidaat.nextInt(partijen.get(partijenlength).partijKandidaten.size());
-        partijen.get(partijenlength).partijKandidaten.get(kandidatenLength).kandidaatStemmen++;
+        int kandidatenLength = randomKandidaat.nextInt(Partij.getTotalKandidaten(kieslijst.get(partijenlength)));
+        Partij.setAantalStemmen(kieslijst.get(partijenlength), kandidatenLength);
     }
 
 }
