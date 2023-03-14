@@ -8,16 +8,16 @@ public class Kandidaat {
         kandidaatStemmen = 0;
     }
 
-    public static String getKandidaatNaam(Kandidaat kandidaat) {
-        return kandidaat.kandidaatNaam;
+    public String getKandidaatNaam() {
+        return kandidaatNaam;
     }
 
-    public static void setKandidaatStemmen(Kandidaat kandidaat) {
-        kandidaat.kandidaatStemmen++;
+    public void voegStemToe() {
+        kandidaatStemmen++;
     }
 
-    public static int getKandidaatStemmen(Kandidaat kandidaat) {
-        return kandidaat.kandidaatStemmen;
+    public int getKandidaatStemmen() {
+        return kandidaatStemmen;
     }
 
 }

@@ -5,32 +5,39 @@ public class Partij {
     private final String partijNaam;
     private final ArrayList<Kandidaat> partijKandidaten;
 
-    public Partij(String naam, String[] kandidaten) {
-        partijNaam = naam.length() == 0 ? "Geen partijnaam opgegeven" : naam;
-        partijKandidaten = createKandidaatLijst(kandidaten);
+    private int partijStemmen;
+
+    public Partij(String[][] partijGegevens) {
+        partijNaam = partijGegevens[0][0];
+        partijKandidaten = createKandidaatLijst(partijGegevens[1]);
+        partijStemmen = 0;
     }
 
-    public static String getPartijNaam(Partij partij) {
-        return partij.partijNaam;
+    public String getPartijNaam() {
+        return partijNaam;
     }
 
-    public static int getTotalKandidaten(Partij partij) {
-        return partij.partijKandidaten.size();
+    public int getTotalKandidaten() {
+        return partijKandidaten.size();
     }
 
-    public static String getKandidaat(Partij partij, int index) {
-        Kandidaat kandidaat = partij.partijKandidaten.get(index);
-        return Kandidaat.getKandidaatNaam(kandidaat);
+    public String getKandidaat(int index) {
+        return partijKandidaten.get(index).getKandidaatNaam();
     }
 
-    public static void setAantalStemmen(Partij partij, int kandidaatIndex) {
-        Kandidaat kandidaat = partij.partijKandidaten.get(kandidaatIndex);
-        Kandidaat.setKandidaatStemmen(kandidaat);
+    public void stemOpKandidaat(int index) {
+        partijKandidaten.get(index).voegStemToe();
     }
 
-    public static int getAantalStemmen(Partij partij, int index) {
-        Kandidaat kandidaat = partij.partijKandidaten.get(index);
-        return Kandidaat.getKandidaatStemmen(kandidaat);
+    public int getKandidaatStemmen(int index) {
+        return partijKandidaten.get(index).getKandidaatStemmen();
+    }
+
+    public int getPartijStemmen() {
+        for (int i = 0; i < partijKandidaten.size(); i++) {
+            partijStemmen = partijStemmen + partijKandidaten.get(i).getKandidaatStemmen();
+        }
+        return partijStemmen;
     }
 
     private static ArrayList<Kandidaat> createKandidaatLijst(String[] kandidaten) {
@@ -41,4 +48,5 @@ public class Partij {
         }
         return kandidaatLijst;
     }
+
 }
